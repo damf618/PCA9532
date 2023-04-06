@@ -119,10 +119,14 @@ uint8_t pca_9532_led_on(pca9532_conf_t* dev, uint8_t led)
 {
     uint8_t rtn = PCA_9532_FAIL;
 
-    if((0 <= led) && (PCA_9532_CHANNELS > led))
+    if(NULL != dev)
     {
-        //TODO: I2C Command and validation
-        rtn = PCA_9532_OK;
+        if((0 <= led) && (PCA_9532_CHANNELS > led))
+        {
+            //TODO: I2C Command and validation
+            rtn = PCA_9532_OK;
+            dev->state |= (1 << led);
+        }
     }
 
     return rtn;
@@ -133,12 +137,24 @@ uint8_t pca_9532_led_off(pca9532_conf_t* dev, uint8_t led)
 {
     uint8_t rtn = PCA_9532_FAIL;
 
-    if((0 <= led) && (PCA_9532_CHANNELS > led))
+    if(NULL != dev)
     {
-        //TODO: I2C Command and validation
-        rtn = PCA_9532_OK;
+        if((0 <= led) && (PCA_9532_CHANNELS > led))
+        {
+            //TODO: I2C Command and validation
+            rtn = PCA_9532_OK;
+            dev->state &= ~(1 << led);
+        }
     }
 
     return rtn;
 }
 
+// PCA9532 STATE
+uint16_t get_pca_9532_state(pca9532_conf_t* dev)
+{
+    if(NULL != dev)
+    {
+        return dev->state;
+    }
+}

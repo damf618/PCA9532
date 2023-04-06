@@ -80,6 +80,7 @@ typedef struct
     pca9532_conf_t* dev;
     uint8_t         n_leds;
     uint16_t        pin_addresses;
+    uint16_t        state;
     uint8_t         freq;
     ledColour_t     color;
 }ledStrip_t;
@@ -90,6 +91,7 @@ typedef struct
 Status LedStripInit(ledStrip_t* led, pca9532_conf_t * dev, uint16_t pin_conf);
 Status LedColourInit(ledColour_t* color, uint8_t red, uint8_t green, uint8_t blue );
 Status LedColourAuto(ledColour_t* color, color_e deffcolor);
+uint16_t get_LedState(ledStrip_t* led);
 
 
 /*     --  REQUIRED  --    */

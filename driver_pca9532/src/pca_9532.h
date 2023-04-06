@@ -59,12 +59,12 @@ extern "C" {
  */
 typedef struct
 {
-    uint8_t address;
-    uint8_t ena_pin;
-    uint8_t status;
-    uint8_t state[PCA_9532_STATE_REG];
-    uint8_t pwm[PCA_9532_PWM_RATE];
-    uint8_t freq[PCA_9532_FREQ_RATE];
+    uint8_t     address;
+    uint8_t     ena_pin;
+    uint8_t     status;
+    uint16_t    state;
+    uint8_t     pwm[PCA_9532_PWM_RATE];
+    uint8_t     freq[PCA_9532_FREQ_RATE];
 }pca9532_conf_t;
 
 
@@ -99,6 +99,8 @@ uint8_t pca_9532_disable(pca9532_conf_t* dev);
 uint8_t pca_9532_led_on(pca9532_conf_t* dev, uint8_t led);
 
 uint8_t pca_9532_led_off(pca9532_conf_t* dev, uint8_t led);
+
+uint16_t get_pca_9532_state(pca9532_conf_t* dev);
 
 
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/

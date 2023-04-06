@@ -79,6 +79,22 @@ typedef struct Test_Cases_Freq_s
 	uint8_t 		expect_config1;
 } Test_Cases_Freq_t;
 
+typedef struct Test_Cases_LedOff_s
+{	
+	pca9532_conf_t*	pca;
+	uint8_t 		led;
+	uint16_t 		state;
+	uint8_t 		expect_config;
+} Test_Cases_LedOff_t;
+
+typedef struct Test_Cases_LedOn_s
+{	
+	pca9532_conf_t*	pca;
+	uint8_t 		led;
+	uint16_t 		state;
+	uint8_t 		expect_config;
+} Test_Cases_LedOn_t;
+
 static const Test_Cases_PWM_t Test_Cases_PWM[]= 
 {
 	{
@@ -116,6 +132,86 @@ static const Test_Cases_PWM_t Test_Cases_PWM[]=
 	.pwm1				= CORRECT_PWM3,
 	.expect_config0		= PCA_9532_OK,
 	.expect_config1		= PCA_9532_FAIL,
+	},
+};
+
+static const Test_Cases_LedOff_t Test_Cases_LedOff[]= 
+{
+	{
+	.pca				= &dev,
+	.led				= PCA_9532_CHANNELS - 5,
+	.state				= 0b0000100000000000,
+	.expect_config		= PCA_9532_OK,
+	},
+	{
+	.pca				= &dev,
+	.led				= PCA_9532_CHANNELS-11,
+	.state				= 0b0000000000100000,
+	.expect_config		= PCA_9532_OK,
+	},
+	{
+	.pca				= &dev,
+	.led				= PCA_9532_CHANNELS - PCA_9532_CHANNELS,
+	.state				= 0b0000000000000001,
+	.expect_config		= PCA_9532_OK,
+	},
+	{
+	.pca				= &dev,
+	.led				= PCA_9532_CHANNELS +1,
+	.state				= 0b0000000000000000,
+	.expect_config		= PCA_9532_FAIL,
+	},
+	{
+	.pca				= &dev,
+	.led				= -1,
+	.state				= 0b0001000000000000,
+	.expect_config		= PCA_9532_FAIL,
+	},
+	{
+	.pca				= NULL,
+	.led				= PCA_9532_CHANNELS-1,
+	.state				= 0b0000000011000000,
+	.expect_config		= PCA_9532_FAIL,
+	},
+};
+
+static const Test_Cases_LedOn_t Test_Cases_LedOn[]= 
+{
+	{
+	.pca				= &dev,
+	.led				= PCA_9532_CHANNELS - 5,
+	.state				= 0b0000100000000000,
+	.expect_config		= PCA_9532_OK,
+	},
+	{
+	.pca				= &dev,
+	.led				= PCA_9532_CHANNELS-11,
+	.state				= 0b0000000000100000,
+	.expect_config		= PCA_9532_OK,
+	},
+	{
+	.pca				= &dev,
+	.led				= PCA_9532_CHANNELS - PCA_9532_CHANNELS,
+	.state				= 0b0000000000000001,
+	.expect_config		= PCA_9532_OK,
+	},
+	{
+	.pca				= &dev,
+	.led				= PCA_9532_CHANNELS +1,
+	.state				= 0b0000000000000000,
+	.expect_config		= PCA_9532_FAIL,
+	},
+	{
+	.pca				= &dev,
+	.led				= -1,
+	.state				= 0b0000000000000000,
+	.expect_config		= PCA_9532_FAIL,
+	},
+	{
+	.pca				= NULL,
+	.led				= PCA_9532_CHANNELS - 2,
+	.state				= 0b0000000000000100,
+	.expect_config		= PCA_9532_FAIL,
 	},
 };
 
@@ -302,32 +398,25 @@ void test_Freq(void){
 void test_LedOn(void){
 	
 	char Text_ID[30];
-	
+
 	printf("\n *** Inicio de Pruebas de Encendido de LED  ***");
 
-	TEST_IGNORE_MESSAGE("iMPLEMENT me");
-
-	for(actual_case = 0; actual_case < sizeof(Test_Cases_Freq) / sizeof(struct Test_Cases_Freq_s); actual_case++)
+	for(actual_case = 0; actual_case < sizeof(Test_Cases_LedOn) / sizeof(struct Test_Cases_LedOn_s); actual_case++)
 	{
+		//TODO: Turn OFF to validate the Test.
+		dev.state = 0x0;
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
-		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Freq[actual_case].expect_config0,
-			pca_9532_freq_config( Test_Cases_Freq[actual_case].pca, Test_Cases_Freq[actual_case].freq0 ,
-						  		  Test_Cases_Freq[actual_case].index0),Text_ID);
+		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_LedOn[actual_case].expect_config,
+			pca_9532_led_on( Test_Cases_LedOn[actual_case].pca, Test_Cases_LedOn[actual_case].led),
+						  	  Text_ID);
 
-		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Freq[actual_case].expect_config1,
-			pca_9532_freq_config( Test_Cases_Freq[actual_case].pca, Test_Cases_Freq[actual_case].freq1 ,
-						  		  Test_Cases_Freq[actual_case].index1),Text_ID);
 		
-		if((Test_Cases_Freq[actual_case].expect_config0) == PCA_9532_OK)
+		if((Test_Cases_LedOn[actual_case].expect_config) == PCA_9532_OK)
 		{
-			TEST_ASSERT_EQUAL(Test_Cases_Freq[actual_case].freq0, dev.freq[INDEX_0]);
-		}
-
-		if((Test_Cases_Freq[actual_case].expect_config1) == PCA_9532_OK)
-		{
-			TEST_ASSERT_EQUAL(Test_Cases_Freq[actual_case].freq1, dev.freq[INDEX_1]);
+			TEST_ASSERT_EQUAL_HEX16_MESSAGE(Test_Cases_LedOn[actual_case].state,
+											get_pca_9532_state(Test_Cases_LedOn[actual_case].pca),Text_ID);
 		}
 	}
 	
@@ -347,29 +436,22 @@ void test_LedOff(void){
 	
 	printf("\n *** Inicio de Pruebas de Apagado de LED  ***");
 
-	TEST_IGNORE_MESSAGE("iMPLEMENT me");
-
-	for(actual_case = 0; actual_case < sizeof(Test_Cases_Freq) / sizeof(struct Test_Cases_Freq_s); actual_case++)
+	for(actual_case = 0; actual_case < sizeof(Test_Cases_LedOff) / sizeof(struct Test_Cases_LedOff_s); actual_case++)
 	{
+		//TODO: Turn ON to validate the Test.
+		dev.state = 0xFFFF;
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
-		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Freq[actual_case].expect_config0,
-			pca_9532_freq_config( Test_Cases_Freq[actual_case].pca, Test_Cases_Freq[actual_case].freq0 ,
-						  		  Test_Cases_Freq[actual_case].index0),Text_ID);
+		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_LedOff[actual_case].expect_config,
+			pca_9532_led_off( Test_Cases_LedOff[actual_case].pca, Test_Cases_LedOff[actual_case].led),
+						  	  Text_ID);
 
-		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Freq[actual_case].expect_config1,
-			pca_9532_freq_config( Test_Cases_Freq[actual_case].pca, Test_Cases_Freq[actual_case].freq1 ,
-						  		  Test_Cases_Freq[actual_case].index1),Text_ID);
 		
-		if((Test_Cases_Freq[actual_case].expect_config0) == PCA_9532_OK)
+		if((Test_Cases_LedOff[actual_case].expect_config) == PCA_9532_OK)
 		{
-			TEST_ASSERT_EQUAL(Test_Cases_Freq[actual_case].freq0, dev.freq[INDEX_0]);
-		}
-
-		if((Test_Cases_Freq[actual_case].expect_config1) == PCA_9532_OK)
-		{
-			TEST_ASSERT_EQUAL(Test_Cases_Freq[actual_case].freq1, dev.freq[INDEX_1]);
+			TEST_ASSERT_EQUAL_HEX16_MESSAGE(Test_Cases_LedOff[actual_case].state,
+											~(get_pca_9532_state(Test_Cases_LedOff[actual_case].pca)),Text_ID);
 		}
 	}
 	
