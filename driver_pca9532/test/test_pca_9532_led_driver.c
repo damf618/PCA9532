@@ -86,14 +86,13 @@ uint32_t actual_case = 0;
 //This is run before EACH TEST
 void setUp(void)
 {
-	TEST_ASSERT_EQUAL(PCA_9532_OK,pca_9532_init(&dev,CORRECT_ADDRESS,ENA_PIN));
+	TEST_ASSERT_EQUAL(PCA_9532_OK,LEDSet(&dev,CORRECT_ADDRESS,ENA_PIN));
 }
 
 //This is run after EACH TEST
 void tearDown(void)
 {
 }
-
 
 typedef struct Test_Cases_Init_s
 {	
@@ -102,7 +101,6 @@ typedef struct Test_Cases_Init_s
 	uint16_t		pin_conf;
 	uint8_t 		expect_init;
 } Test_Cases_Init_t;
-
 
 static const Test_Cases_Init_t Test_Cases_Init[]= 
 {
@@ -145,13 +143,19 @@ typedef struct Test_Cases_Color_Auto_s
 	uint8_t 		expect_init;
 } Test_Cases_Color_Auto_t;
 
-
 typedef struct Test_Cases_LedOn_s
 {	
 	uint16_t		pin_conf;
 	uint16_t		state;
 	uint8_t 		expect_init;
 } Test_Cases_LedOn_t;
+
+typedef struct Test_Cases_LedOff_s
+{	
+	uint16_t		pin_conf;
+	uint16_t		state;
+	uint8_t 		expect_init;
+} Test_Cases_LedOff_t;
 
 
 static const Test_Cases_Color_Auto_t Test_Cases_Color_Auto[]= 
@@ -233,9 +237,19 @@ static const Test_Cases_LedOn_t Test_Cases_LedOn[]=
 		.expect_init= LED_DRIVER_OK,
 	},
 	{
-		.pin_conf	= PIN_CONFIG+3,
-		.state		= PIN_CONFIG+3,
-		.expect_init= LED_DRIVER_ERROR,
+		.pin_conf	= PIN_CONFIG + 0x0003,
+		.state		= PIN_CONFIG + 0x0003,
+		.expect_init= LED_DRIVER_OK,
+	},
+	{
+		.pin_conf	= PIN_CONFIG + 0x0F0F,
+		.state		= PIN_CONFIG + 0x0F0F,
+		.expect_init= LED_DRIVER_OK,
+	},
+	{
+		.pin_conf	= PIN_CONFIG + 0x00FF,
+		.state		= PIN_CONFIG + 0x00FF,
+		.expect_init= LED_DRIVER_OK,
 	},
 	{
 		.pin_conf	= PIN_CONFIG - 0xF000,
@@ -243,17 +257,46 @@ static const Test_Cases_LedOn_t Test_Cases_LedOn[]=
 		.expect_init= LED_DRIVER_OK,
 	},
 	{
-		.pin_conf	= PIN_CONFIG + 0x0F00,
-		.state		= PIN_CONFIG + 0x0F00,
-		.expect_init= LED_DRIVER_ERROR,
-	},
-	{
-		.pin_conf	= PIN_CONFIG - 0xF000,
-		.state		= PIN_CONFIG - 0xF000,
-		.expect_init= LED_DRIVER_ERROR,
+		.pin_conf	= PIN_CONFIG - 0x00F0,
+		.state		= PIN_CONFIG - 0x00F0,
+		.expect_init= LED_DRIVER_OK,
 	},
 };
 
+
+static const Test_Cases_LedOff_t Test_Cases_LedOff[]= 
+{
+	{
+		.pin_conf	= PIN_CONFIG,
+		.state		= 0,
+		.expect_init= LED_DRIVER_OK,
+	},
+	{
+		.pin_conf	= PIN_CONFIG + 0x0003,
+		.state		= 0,
+		.expect_init= LED_DRIVER_OK,
+	},
+	{
+		.pin_conf	= PIN_CONFIG + 0x0F0F,
+		.state		= 0,
+		.expect_init= LED_DRIVER_OK,
+	},
+	{
+		.pin_conf	= PIN_CONFIG + 0x00FF,
+		.state		= 0,
+		.expect_init= LED_DRIVER_OK,
+	},
+	{
+		.pin_conf	= PIN_CONFIG - 0xF000,
+		.state		= 0,
+		.expect_init= LED_DRIVER_OK,
+	},
+	{
+		.pin_conf	= PIN_CONFIG - 0x00F0,
+		.state		= 0,
+		.expect_init= LED_DRIVER_OK,
+	},
+};
 
 
 /**
@@ -264,7 +307,7 @@ static const Test_Cases_LedOn_t Test_Cases_LedOn[]=
 void test_Init(void){
 	char Text_ID[30];
 
-	printf("\n *** Inicio de Pruebas de Init LED_DRIVER  ***");
+	printf("\n *** Inicio de Pruebas de VtaskLogic  ***");
 
 	for(actual_case = 0; actual_case < sizeof(Test_Cases_Init) / sizeof(struct Test_Cases_Init_s); actual_case++)
 	{
@@ -283,7 +326,7 @@ void test_Init(void){
 		}
 	}
 
-	printf("\n ___ Final de Pruebas de Init LED_DRIVER   ___");
+	printf("\n ___ Final de Pruebas de VtaskLogic   ___");
 	
 }
 
@@ -361,11 +404,12 @@ void test_Led_On(void)
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
+		TEST_ASSERT_EQUAL(PCA_9532_OK,LEDSet(&dev,CORRECT_ADDRESS,ENA_PIN));
+
 		TEST_ASSERT_EQUAL_MESSAGE(LED_DRIVER_OK,
-				LedStripInit(&led, &dev, Test_Cases_Init[actual_case].pin_conf),Text_ID);
+				LedStripInit(&led, &dev, Test_Cases_LedOn[actual_case].pin_conf),Text_ID);
 		TEST_ASSERT_EQUAL_MESSAGE(LED_DRIVER_OK,
 				LedColourAuto(&color, MAGENTA), Text_ID);
-
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_LedOn[actual_case].expect_init,
 				LedTurnOn(led, color),Text_ID);
 		
@@ -376,7 +420,9 @@ void test_Led_On(void)
 		}
 	}
 
+	printf("\n ___ Final de Pruebas de Encendido de LED Strip ___");
 }
+
 
 /**
  * @test Prueba de Validacion de encendido.
@@ -389,5 +435,31 @@ void test_Led_Off(void)
 	
 	printf("\n *** Inicio de Pruebas de Apagado de LED Strip ***");
 
-	TEST_IGNORE_MESSAGE("iMPLEMENT me");
+	for(actual_case = 0; actual_case < sizeof(Test_Cases_LedOff) / sizeof(struct Test_Cases_LedOff_s); actual_case++)
+	{
+		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
+		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
+
+		TEST_ASSERT_EQUAL(PCA_9532_OK,LEDSet(&dev,CORRECT_ADDRESS,ENA_PIN));
+
+		TEST_ASSERT_EQUAL_MESSAGE(LED_DRIVER_OK,
+				LedStripInit(&led, &dev, Test_Cases_LedOff[actual_case].pin_conf),Text_ID);
+		TEST_ASSERT_EQUAL_MESSAGE(LED_DRIVER_OK,
+				LedColourAuto(&color, MAGENTA), Text_ID);
+		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_LedOff[actual_case].expect_init,
+				LedTurnOn(led, color),Text_ID);
+
+		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_LedOff[actual_case].expect_init,
+				LedTurnOff(led),Text_ID);
+
+		/*TEST*/
+		
+		if((Test_Cases_LedOff[actual_case].expect_init) == LED_DRIVER_OK)
+		{
+			TEST_ASSERT_EQUAL_HEX16_MESSAGE(Test_Cases_LedOff[actual_case].state, 
+								  	  get_LedState(&led),Text_ID);
+		}
+	}
+
+	printf("\n ___ Final de Pruebas de Apagado de LED Strip ___");
 }

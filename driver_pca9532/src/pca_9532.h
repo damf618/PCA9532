@@ -79,7 +79,7 @@ typedef struct
  * @return uint8_t returns PCA_9532_OK if correct.
  * 
  */
-uint8_t pca_9532_init(pca9532_conf_t* dev, uint8_t add, uint8_t ena_pin);
+uint8_t LEDSet(pca9532_conf_t* dev, uint8_t add, uint8_t ena_pin);
 
 /**
  * @brief 
@@ -88,19 +88,21 @@ uint8_t pca_9532_init(pca9532_conf_t* dev, uint8_t add, uint8_t ena_pin);
  * @param pwm 
  * @return uint8_t 
  */
-uint8_t pca_9532_pwm_config(pca9532_conf_t* dev, uint8_t pwm, uint8_t index );
+uint8_t LEDSet_Duty(pca9532_conf_t* dev, uint8_t pwm, uint8_t index );
 
-uint8_t pca_9532_freq_config(pca9532_conf_t* dev, uint8_t freq, uint8_t index );
+uint8_t LEDSet_Period(pca9532_conf_t* dev, uint8_t freq, uint8_t index );
 
-uint8_t pca_9532_enable(pca9532_conf_t* dev);
+uint8_t LEDSet_enable(pca9532_conf_t* dev);
 
-uint8_t pca_9532_disable(pca9532_conf_t* dev);
+uint8_t LEDSet_disable(pca9532_conf_t* dev);
 
-uint8_t pca_9532_led_on(pca9532_conf_t* dev, uint8_t led);
+uint8_t LEDSet_led_on(pca9532_conf_t* dev, uint8_t led);
 
-uint8_t pca_9532_led_off(pca9532_conf_t* dev, uint8_t led);
+uint8_t LEDSet_led_off(pca9532_conf_t* dev, uint8_t led);
 
-uint16_t get_pca_9532_state(pca9532_conf_t* dev);
+uint16_t get_LEDSet_state(pca9532_conf_t* dev);
+
+
 
 
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/

@@ -41,7 +41,7 @@ uint32_t actual_case = 0;
 //This is run before EACH TEST
 void setUp(void)
 {
-	TEST_ASSERT_EQUAL(PCA_9532_OK,pca_9532_init(&dev,CORRECT_ADDRESS,ENA_PIN));
+	TEST_ASSERT_EQUAL(PCA_9532_OK,LEDSet(&dev,CORRECT_ADDRESS,ENA_PIN));
 }
 
 //This is run after EACH TEST
@@ -294,7 +294,7 @@ void test_Direcciones(void){
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Dir[actual_case].expect_init,
-			pca_9532_init(Test_Cases_Dir[actual_case].pca, Test_Cases_Dir[actual_case].addr ,
+			LEDSet(Test_Cases_Dir[actual_case].pca, Test_Cases_Dir[actual_case].addr ,
 						  Test_Cases_Dir[actual_case].ena),Text_ID);
 		
 		if((Test_Cases_Dir[actual_case].expect_init) == PCA_9532_OK)
@@ -327,11 +327,11 @@ void test_PWM(void){
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_PWM[actual_case].expect_config0,
-			pca_9532_pwm_config(  Test_Cases_PWM[actual_case].pca, Test_Cases_PWM[actual_case].pwm0 ,
+			LEDSet_Duty(  Test_Cases_PWM[actual_case].pca, Test_Cases_PWM[actual_case].pwm0 ,
 						  		  Test_Cases_PWM[actual_case].index0),Text_ID);
 
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_PWM[actual_case].expect_config1,
-			pca_9532_pwm_config(  Test_Cases_PWM[actual_case].pca, Test_Cases_PWM[actual_case].pwm1 ,
+			LEDSet_Duty(  Test_Cases_PWM[actual_case].pca, Test_Cases_PWM[actual_case].pwm1 ,
 						  		  Test_Cases_PWM[actual_case].index1),Text_ID);
 		
 		if((Test_Cases_PWM[actual_case].expect_config0) == PCA_9532_OK)
@@ -367,11 +367,11 @@ void test_Freq(void){
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Freq[actual_case].expect_config0,
-			pca_9532_freq_config( Test_Cases_Freq[actual_case].pca, Test_Cases_Freq[actual_case].freq0 ,
+			LEDSet_Period( Test_Cases_Freq[actual_case].pca, Test_Cases_Freq[actual_case].freq0 ,
 						  		  Test_Cases_Freq[actual_case].index0),Text_ID);
 
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Freq[actual_case].expect_config1,
-			pca_9532_freq_config( Test_Cases_Freq[actual_case].pca, Test_Cases_Freq[actual_case].freq1 ,
+			LEDSet_Period( Test_Cases_Freq[actual_case].pca, Test_Cases_Freq[actual_case].freq1 ,
 						  		  Test_Cases_Freq[actual_case].index1),Text_ID);
 		
 		if((Test_Cases_Freq[actual_case].expect_config0) == PCA_9532_OK)
@@ -409,14 +409,14 @@ void test_LedOn(void){
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_LedOn[actual_case].expect_config,
-			pca_9532_led_on( Test_Cases_LedOn[actual_case].pca, Test_Cases_LedOn[actual_case].led),
+			LEDSet_led_on( Test_Cases_LedOn[actual_case].pca, Test_Cases_LedOn[actual_case].led),
 						  	  Text_ID);
 
 		
 		if((Test_Cases_LedOn[actual_case].expect_config) == PCA_9532_OK)
 		{
 			TEST_ASSERT_EQUAL_HEX16_MESSAGE(Test_Cases_LedOn[actual_case].state,
-											get_pca_9532_state(Test_Cases_LedOn[actual_case].pca),Text_ID);
+											get_LEDSet_state(Test_Cases_LedOn[actual_case].pca),Text_ID);
 		}
 	}
 	
@@ -444,14 +444,14 @@ void test_LedOff(void){
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_LedOff[actual_case].expect_config,
-			pca_9532_led_off( Test_Cases_LedOff[actual_case].pca, Test_Cases_LedOff[actual_case].led),
+			LEDSet_led_off( Test_Cases_LedOff[actual_case].pca, Test_Cases_LedOff[actual_case].led),
 						  	  Text_ID);
 
 		
 		if((Test_Cases_LedOff[actual_case].expect_config) == PCA_9532_OK)
 		{
 			TEST_ASSERT_EQUAL_HEX16_MESSAGE(Test_Cases_LedOff[actual_case].state,
-											~(get_pca_9532_state(Test_Cases_LedOff[actual_case].pca)),Text_ID);
+											~(get_LEDSet_state(Test_Cases_LedOff[actual_case].pca)),Text_ID);
 		}
 	}
 	

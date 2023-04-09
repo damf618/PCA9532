@@ -80,9 +80,9 @@ typedef struct
     pca9532_conf_t* dev;
     uint8_t         n_leds;
     uint16_t        pin_addresses;
-    uint16_t        state;
     uint8_t         freq;
     ledColour_t     color;
+    
 }ledStrip_t;
 
 

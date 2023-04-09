@@ -32,7 +32,7 @@ Status LedStripInit(ledStrip_t* led, pca9532_conf_t * dev, uint16_t pin_conf)
 
         led->pin_addresses = pin_conf;
 
-        pca_9532_enable(led->dev);
+        LEDSet_enable(led->dev);
 
         rtn = LED_DRIVER_OK;
     }
@@ -138,22 +138,8 @@ Status LedTurnOff(ledStrip_t led)
 {
     uint8_t rtn = LED_DRIVER_ERROR;
 
-    if((LED_DRIVER_OK == pca_9532_pwm_config(led.dev, COLOR_MIN_BRIGHT, BLINK0 )) ||
-       (LED_DRIVER_OK == pca_9532_pwm_config(led.dev, COLOR_MIN_BRIGHT, BLINK1 )))
-    {
-        rtn = LED_DRIVER_OK;
-    }
-    return rtn;
-
-}
-
-
-Status LedTurnOn(ledStrip_t led, ledColour_t color)
-{
-    uint8_t rtn = LED_DRIVER_ERROR; 
-
-    if((LED_DRIVER_OK == pca_9532_pwm_config(led.dev, DEFF_COLOR_BRIGHT, BLINK0 )) ||
-       (LED_DRIVER_OK == pca_9532_pwm_config(led.dev, DEFF_COLOR_BRIGHT, BLINK1 )))
+    if((LED_DRIVER_OK == LEDSet_Duty(led.dev, COLOR_MIN_BRIGHT, BLINK0 )) ||
+       (LED_DRIVER_OK == LEDSet_Duty(led.dev, COLOR_MIN_BRIGHT, BLINK1 )))
     {
         rtn = LED_DRIVER_OK;
     }
@@ -165,30 +151,73 @@ Status LedTurnOn(ledStrip_t led, ledColour_t color)
             // If the Led is Connected ...
             if (led.pin_addresses & (1 << i))
             {
-                printf("\r\n%d",i);
-                printf("%04X", led.dev);
-                printf("\r\n%d",pca_9532_led_on(led.dev,i));
-                if(PCA_9532_FAIL == pca_9532_led_on(led.dev,i));
+                if(PCA_9532_FAIL == LEDSet_led_off(led.dev,i))
                 {
                     rtn = LED_DRIVER_ERROR;
                     break;
                 }
             }
         }
-        led.state = get_LedState(&led);
+
+        if( get_LEDSet_state(led.dev) != 0x0000 )
+        {
+            rtn = LED_DRIVER_ERROR;
+        }
     }
+
+    return rtn;
+
+}
+
+
+Status LedTurnOn(ledStrip_t led, ledColour_t color)
+{
+    uint8_t rtn = LED_DRIVER_ERROR; 
+
+    if((LED_DRIVER_OK == LEDSet_Duty(led.dev, DEFF_COLOR_BRIGHT, BLINK0 )) ||
+       (LED_DRIVER_OK == LEDSet_Duty(led.dev, DEFF_COLOR_BRIGHT, BLINK1 )))
+    {
+        rtn = LED_DRIVER_OK;
+    }
+
+    if(LED_DRIVER_OK == rtn)
+    {
+        for(uint8_t i=0; i<MAX_LEDS_STRIP ;i++)
+        {
+            // If the Led is Connected ...
+            if (led.pin_addresses & (1 << i))
+            {
+                if(PCA_9532_FAIL == LEDSet_led_on(led.dev,i))
+                {
+                    rtn = LED_DRIVER_ERROR;
+                    break;
+                }
+            }
+        }
+
+        if( get_LEDSet_state(led.dev) != led.pin_addresses )
+        {
+            rtn = LED_DRIVER_ERROR;
+        }
+    }
+
     return rtn;
 }
 
+
 uint16_t get_LedState(ledStrip_t* led)
-{
-    if(NULL != led)
-    {
-        return led->state;
-    }
+{    
+    return get_LEDSet_state(led->dev);
 }
 
-Status LedStayOn(ledStrip_t led, uint16_t timeout, ledColour_t color);
+
+Status LedStayOn(ledStrip_t led, uint16_t timeout, ledColour_t color)
+{
+    //RTOS Delay Considerations
+
+}
+
+
 Status LedBlinkColor(ledStrip_t led,uint16_t period, ledColour_t colorA);
 Status LedBlinkTwoColors(ledStrip_t led,uint16_t period, ledColour_t colorA, ledColour_t colorB);
 Status LedBlinkColorForTime(ledStrip_t led,uint16_t period, uint16_t timeout, ledColour_t colorA);
