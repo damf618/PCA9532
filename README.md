@@ -17,6 +17,9 @@ Debido a que no dispongo del hardware para realizar la prueba correcta del siste
 
 Desarrollo de un driver para el manejo del IC [PCA9532](https://www.nxp.com/docs/en/data-sheet/PCA9532.pdf). 
 
+Para el desarrollo de las funciones i2C se plantea tomar como base (posterior a las pruebas y modificaciones consideradas) la siguiente [Biblioteca de Referencia](https://os.mbed.com/users/chris/code/PCA9532/). 
+
+
 Herramientas Necesarias:
 - Ceedling: para el Testing.
 - Doxygen para la documentacion.
@@ -37,7 +40,7 @@ Se analizan 3 posibilidades para el manejo de los efectos LEDS:
 | Timers | Manejo delegado al kernel | Requiere memoria dinamica y el borrado de timers | - |
 | Local | Memoria estatica  | No hace uso de los recursos de RTOS | X |
 
-Basado en que las aplicaciones de MSA son principalmente **sistemas criticos**, se opto por una version mas segura. Se da prioridad a la opcion 3, ya que no requiere de Memoria Dinamica, de esta forma los recursos (memoria) quedan disponibles para tareas de mayor prioridad que el encendido de un LED.  
+Basado en que las aplicaciones de MSA son principalmente **sistemas criticos**, se opto por una version mas segura. Se da prioridad a la opcion 3, ya que no requiere de Memoria Dinamica, de esta forma los recursos (memoria) quedan disponibles para tareas de mayor prioridad que el encendido de un LED. Esta opcion ademas contempla el uso de un Mutex para el i2C, con el objetivo de permitir trabajar de forma conjunta con tareas que requieran de este recurso. 
 
 ## Diagrama
 Diagrama de arquitectura del driver:
