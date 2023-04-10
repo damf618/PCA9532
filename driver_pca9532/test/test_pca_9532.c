@@ -49,6 +49,8 @@ void tearDown(void)
 {
 }
 
+/*==========================[ Data Types for Testings ]==========================*/
+
 typedef struct Test_Cases_Dir_s
 {	
 	pca9532_conf_t*	pca;
@@ -94,6 +96,8 @@ typedef struct Test_Cases_LedOn_s
 	uint16_t 		state;
 	uint8_t 		expect_config;
 } Test_Cases_LedOn_t;
+
+/*==========================[ Possible Test Cases  ]==========================*/
 
 static const Test_Cases_PWM_t Test_Cases_PWM[]= 
 {
@@ -277,6 +281,7 @@ static const Test_Cases_Dir_t Test_Cases_Dir[]=
 	},
 };
 
+/*==========================[ Testing functions  ]==========================*/
 
 /**
  * @test Prueba de Validacion de Direcciones.
@@ -293,12 +298,14 @@ void test_Direcciones(void){
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
+		// Validacion de Inicializacion
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Dir[actual_case].expect_init,
 			LEDSet(Test_Cases_Dir[actual_case].pca, Test_Cases_Dir[actual_case].addr ,
 						  Test_Cases_Dir[actual_case].ena),Text_ID);
 		
 		if((Test_Cases_Dir[actual_case].expect_init) == PCA_9532_OK)
 		{
+			// Validacion de Cambios en la estructura
 			TEST_ASSERT_EQUAL(Test_Cases_Dir[actual_case].addr, dev.address);
 			TEST_ASSERT_EQUAL(Test_Cases_Dir[actual_case].ena, dev.ena_pin);
 		}
@@ -326,19 +333,23 @@ void test_PWM(void){
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
+		// Validacion de Configuracion de PWM (BLINK0)
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_PWM[actual_case].expect_config0,
 			LEDSet_Duty(  Test_Cases_PWM[actual_case].pca, Test_Cases_PWM[actual_case].pwm0 ,
 						  		  Test_Cases_PWM[actual_case].index0),Text_ID);
 
+		// Validacion de Configuracion de PWM (BLINK1)
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_PWM[actual_case].expect_config1,
 			LEDSet_Duty(  Test_Cases_PWM[actual_case].pca, Test_Cases_PWM[actual_case].pwm1 ,
 						  		  Test_Cases_PWM[actual_case].index1),Text_ID);
 		
+		// Validacion de configuracion y cambios en la estructura asociada a (BLINK0)
 		if((Test_Cases_PWM[actual_case].expect_config0) == PCA_9532_OK)
 		{
 			TEST_ASSERT_EQUAL(Test_Cases_PWM[actual_case].pwm0, dev.pwm[INDEX_0]);
 		}
 
+		// Validacion de configuracion y cambios en la estructura asociada a (BLINK1)
 		if((Test_Cases_PWM[actual_case].expect_config1) == PCA_9532_OK)
 		{
 			TEST_ASSERT_EQUAL(Test_Cases_PWM[actual_case].pwm1, dev.pwm[INDEX_1]);
@@ -351,11 +362,11 @@ void test_PWM(void){
 
 
 /**
- * @test Prueba de Configuracion de PWM.
+ * @test Prueba de Configuracion de Periodo.
  * 
  * 
  **/
-void test_Freq(void){
+void test_Periodo(void){
 	
 	char Text_ID[30];
 	
@@ -366,19 +377,23 @@ void test_Freq(void){
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
+		// Validacion de Configuracion de Periodo (BLINK0)
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Freq[actual_case].expect_config0,
 			LEDSet_Period( Test_Cases_Freq[actual_case].pca, Test_Cases_Freq[actual_case].freq0 ,
 						  		  Test_Cases_Freq[actual_case].index0),Text_ID);
 
+		// Validacion de Configuracion de Periodo (BLINK1)
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Freq[actual_case].expect_config1,
 			LEDSet_Period( Test_Cases_Freq[actual_case].pca, Test_Cases_Freq[actual_case].freq1 ,
 						  		  Test_Cases_Freq[actual_case].index1),Text_ID);
 		
+		// Validacion de configuracion y cambios en la estructura asociada a (BLINK0)
 		if((Test_Cases_Freq[actual_case].expect_config0) == PCA_9532_OK)
 		{
 			TEST_ASSERT_EQUAL(Test_Cases_Freq[actual_case].freq0, dev.freq[INDEX_0]);
 		}
 
+		// Validacion de configuracion y cambios en la estructura asociada a (BLINK1)
 		if((Test_Cases_Freq[actual_case].expect_config1) == PCA_9532_OK)
 		{
 			TEST_ASSERT_EQUAL(Test_Cases_Freq[actual_case].freq1, dev.freq[INDEX_1]);
@@ -387,7 +402,6 @@ void test_Freq(void){
 	
 	printf("\n ___ Final de Pruebas de Configuracion FREQ   ___");
 }
-
 
 
 /**
@@ -408,6 +422,7 @@ void test_LedOn(void){
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
+		// Validacion de Configuracion de Encendido de LED
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_LedOn[actual_case].expect_config,
 			LEDSet_led_on( Test_Cases_LedOn[actual_case].pca, Test_Cases_LedOn[actual_case].led),
 						  	  Text_ID);
@@ -415,6 +430,7 @@ void test_LedOn(void){
 		
 		if((Test_Cases_LedOn[actual_case].expect_config) == PCA_9532_OK)
 		{
+			// Validacion de Estado de la estructura en base a pines y estado del PCA
 			TEST_ASSERT_EQUAL_HEX16_MESSAGE(Test_Cases_LedOn[actual_case].state,
 											get_LEDSet_state(Test_Cases_LedOn[actual_case].pca),Text_ID);
 		}
@@ -422,7 +438,6 @@ void test_LedOn(void){
 	
 	printf("\n ___ Final de Pruebas de Encendido de LED   ___");
 }
-
 
 
 /**
@@ -443,6 +458,7 @@ void test_LedOff(void){
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
+		// Validacion de Configuracion de Apagado de LED
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_LedOff[actual_case].expect_config,
 			LEDSet_led_off( Test_Cases_LedOff[actual_case].pca, Test_Cases_LedOff[actual_case].led),
 						  	  Text_ID);
@@ -450,6 +466,7 @@ void test_LedOff(void){
 		
 		if((Test_Cases_LedOff[actual_case].expect_config) == PCA_9532_OK)
 		{
+			// Validacion de Estado de la estructura en base a pines y estado del PCA
 			TEST_ASSERT_EQUAL_HEX16_MESSAGE(Test_Cases_LedOff[actual_case].state,
 											~(get_LEDSet_state(Test_Cases_LedOff[actual_case].pca)),Text_ID);
 		}

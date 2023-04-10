@@ -88,9 +88,42 @@ typedef struct
 
 /*=====[Prototypes (declarations) of public functions]=======================*/
 /*     --  CUSTOM  --    */
+/**
+ * @brief Funcion para inicializar las LED Strip
+ * 
+ * @param led 
+ * @param dev 
+ * @param pin_conf 
+ * @return Status 
+ */
 Status LedStripInit(ledStrip_t* led, pca9532_conf_t * dev, uint16_t pin_conf);
+
+
+/**
+ * @brief Funcion para establecer un color custom en la LED Strip
+ * 
+ * @param led 
+ * @param dev 
+ * @param pin_conf 
+ * @return Status 
+ */
 Status LedColourInit(ledColour_t* color, uint8_t red, uint8_t green, uint8_t blue );
+
+/**
+ * @brief Funcion para establecer un color AUTO en la LED Strip
+ * 
+ * @param color 
+ * @param deffcolor 
+ * @return Status 
+ */
 Status LedColourAuto(ledColour_t* color, color_e deffcolor);
+
+/**
+ * @brief Funcion para obtener el estado de una tora de leds
+ * 
+ * @param led 
+ * @return uint16_t 
+ */
 uint16_t get_LedState(ledStrip_t* led);
 
 

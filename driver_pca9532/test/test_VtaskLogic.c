@@ -289,6 +289,13 @@ static const Test_Cases_LED_t Test_Cases_LED[]=
 	},
 };
 
+
+/**
+ * @brief Funcion para el llamado automatico de las funciones Expect correspondiente para cada Caso
+ * de prueba. Segun cada caso se puede requerir del llamdo de una funcion de Comando de LED especifico. 
+ * 
+ * @param mode 
+ */
 void Enum_to_Expect(uint8_t mode)
 {
 
@@ -336,6 +343,15 @@ void Enum_to_Expect(uint8_t mode)
 	}		
 }
 
+
+/**
+ * @brief Funcion para el llamado automatico de LEDTurnoff Expect en base a las condiciones del Test Case.
+ * El llamado se realiza en base a si se requiere un Blink (Apagado).
+ * 
+ * @param Test 
+ * @param idx 
+ * @param cases 
+ */
 void Pre_Blink_Test(Test_Cases_LED_t Test, uint8_t idx, uint8_t cases)
 {
 	static uint8_t int_state[NUMBERoFSTRIPS] = {0,0};
@@ -359,27 +375,41 @@ void Pre_Blink_Test(Test_Cases_LED_t Test, uint8_t idx, uint8_t cases)
 	}
 }
 
+
+/**
+ * @brief Los TestCase estipulados actualmente consideran que existe un cambio de estado en el 
+ * TIMEOUT_INDEX1, en ese caso si el comando a ejecutar corresponde a un BLINK periodico, entonces
+ * al momento de TIMEOUT_INDEX1 se requiere validar un apagado del LED Strip.
+ * @param Test 
+ * @param idx 
+ * @param cases 
+ */
 void Blink_Test(Test_Cases_LED_t Test, uint8_t idx, uint8_t cases)
 {
 	char		txt[60];
 	sprintf(txt,"Caso de Prueba Nro: %d Interno: %d",cases,idx);
 
+	// Si se alcanzo el INDEX correspondiente al cambio (Current time > timeout)
 	if( TIMEOUT_INDEX1 == idx )
 	{
+		// Si el modo BLINK es periodico...
 		if(( BLINK_ONE != Test.call) && ( BLINK_TWO != Test.call))
 		{
 			TEST_ASSERT_EQUAL_MESSAGE(LED_OFF, strips[Test_Cases_LED[cases].strip].state, txt);
 		}
 		else
 		{
+			// Si el encendido no es periodico. Debe mantenerse encendido
 			TEST_ASSERT_EQUAL_MESSAGE(LED_ON, strips[Test_Cases_LED[cases].strip].state, txt);	
 		}
 	}
 	else
 	{
+		// Si no ha transcurrido el tiempo hasta el timeout, el ultimo comando debio encender el LED
 		TEST_ASSERT_EQUAL_MESSAGE(LED_ON, strips[Test_Cases_LED[cases].strip].state, txt);
 	}
 }
+
 
 /**
  * @test Prueba de Validacion de Comandos, Logica y Tiempos.
@@ -401,6 +431,7 @@ void test_Logic(void){
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
+		//Simulacion de Recepcion de Cola
 		frame.colorA 		= Test_Cases_LED[actual_case].colorA;
 		frame.colorB 		= Test_Cases_LED[actual_case].colorB;
 		frame.foreverFlag 	= Test_Cases_LED[actual_case].foreverFlag;
@@ -409,15 +440,24 @@ void test_Logic(void){
 		frame.strip 		= Test_Cases_LED[actual_case].strip;
 		frame.timeout 		= Test_Cases_LED[actual_case].timeout;
 
+		/* El TestCase considera que existen N_DELAYS en los que:
+			- Puede llegar cualquier mensaje encolado.
+			- Puede cumplirse o no un timeout para comandos BLINK.
+		*/
 		for(uint8_t i =0; i<N_DELAYS ;i++)
 		{
+			// Preparacion de los Expects correspondientes para los TestCases 
 			Enum_to_Expect(Test_Cases_LED[actual_case].mode);
 			Pre_Blink_Test(Test_Cases_LED[actual_case], i, actual_case);
+			// Simulacion de los Ticks de FreeRTOS
 			xTaskGetTickCount_ExpectAndReturn(Test_Cases_LED[actual_case].delay[i]);
+			
+			// Simulaicon de ejecucion de Tarea
 			vLedControlLed(frame, Test_Cases_LED[actual_case].queue[i]);
 			
 			if(LED_BLINK == Test_Cases_LED[actual_case].mode)
 			{
+				// Validacion de ejecucion de Comandos y cambios en estructura
 				Blink_Test(Test_Cases_LED[actual_case], i, actual_case);
 			}
 		}

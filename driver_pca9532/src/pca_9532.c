@@ -127,6 +127,8 @@ uint8_t LEDSet_led_on(pca9532_conf_t* dev, uint8_t led)
         {
             //TODO: I2C Command and validation
             rtn = PCA_9532_OK;
+
+            //Actualizo el estado del GPIO
             dev->state |= (1 << led);
         }
     }
@@ -146,6 +148,8 @@ uint8_t LEDSet_led_off(pca9532_conf_t* dev, uint8_t led)
         {
             //TODO: I2C Command and validation
             rtn = PCA_9532_OK;
+
+            //Actualizo el estado del GPIO
             dev->state &= ~(1 << led);
         }
     }

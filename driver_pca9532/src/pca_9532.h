@@ -82,7 +82,7 @@ typedef struct
 uint8_t LEDSet(pca9532_conf_t* dev, uint8_t add, uint8_t ena_pin);
 
 /**
- * @brief 
+ * @brief Seteo de DutyCycle para la strip indicada 
  * 
  * @param dev 
  * @param pwm 
@@ -90,16 +90,56 @@ uint8_t LEDSet(pca9532_conf_t* dev, uint8_t add, uint8_t ena_pin);
  */
 uint8_t LEDSet_Duty(pca9532_conf_t* dev, uint8_t pwm, uint8_t index );
 
+/**
+ * @brief  Seteo de Periodo para la strip indicada 
+ * 
+ * @param dev 
+ * @param freq 
+ * @param index 
+ * @return uint8_t 
+ */
 uint8_t LEDSet_Period(pca9532_conf_t* dev, uint8_t freq, uint8_t index );
 
+/**
+ * @brief Habilitar IC PCA9532 mediante el pin RESET
+ * 
+ * @param dev 
+ * @return uint8_t 
+ */
 uint8_t LEDSet_enable(pca9532_conf_t* dev);
 
+/**
+ * @brief Deshabilitar IC PCA9532 mediante el pin RESET
+ * 
+ * @param dev 
+ * @return uint8_t 
+ */
 uint8_t LEDSet_disable(pca9532_conf_t* dev);
 
+/**
+ * @brief Encendido de led especificado del IC PCA9532
+ * 
+ * @param dev 
+ * @param led 
+ * @return uint8_t 
+ */
 uint8_t LEDSet_led_on(pca9532_conf_t* dev, uint8_t led);
 
+/**
+ * @brief Apagado de led especificado del IC PCA9532
+ * 
+ * @param dev 
+ * @param led 
+ * @return uint8_t 
+ */
 uint8_t LEDSet_led_off(pca9532_conf_t* dev, uint8_t led);
 
+/**
+ * @brief Obtener el estado en el que se encuentra cada Output del IC
+ * 
+ * @param dev 
+ * @return uint16_t 
+ */
 uint16_t get_LEDSet_state(pca9532_conf_t* dev);
 
 

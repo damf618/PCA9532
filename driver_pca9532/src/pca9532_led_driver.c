@@ -22,29 +22,30 @@ Status deff_config(ledColour_t* color, uint8_t rgb_colors[RGB_LEDS] )
 
 /*=====[Implementation of public functions]=======================*/
 
+// Funcion Init de Strip
 Status LedStripInit(ledStrip_t* led, pca9532_conf_t * dev, uint16_t pin_conf)
 {
     Status rtn = LED_DRIVER_ERROR;
 
+    // Validacion NULL
     if((NULL != dev) && (NULL != led))
     {
+        // Configuracion y Habilitacion del IC.
         led->dev = dev;
-
         led->pin_addresses = pin_conf;
-
         LEDSet_enable(led->dev);
-
         rtn = LED_DRIVER_OK;
     }
 
     return rtn;
 }
 
-
+// Funcion Init de Color Custom
 Status LedColourInit(ledColour_t* color, uint8_t red, uint8_t green, uint8_t blue )
 {
     Status rtn = LED_DRIVER_ERROR;
-
+    
+    // Validacion de NULL
     if((NULL != color))
     {
         color->rgb_red      = red;
@@ -56,13 +57,15 @@ Status LedColourInit(ledColour_t* color, uint8_t red, uint8_t green, uint8_t blu
     return rtn;
 }
 
-
+// Funcion Init de Color AUTO
 Status LedColourAuto(ledColour_t* color, color_e deffcolor)
 {
     Status rtn = LED_DRIVER_ERROR;
 
+    // Validacion NULL
     if((NULL != color))
     {
+        // Asignacion de valores RGB en base al color seleccionado
         if(RED == deffcolor)
         {
             uint8_t colors[] = RGB_RED;
@@ -127,13 +130,12 @@ Status LedColourAuto(ledColour_t* color, color_e deffcolor)
                 return LED_DRIVER_OK;
             }
         }
-        
     }
 
     return rtn;
 }
 
-
+// Funcion de Encendido de Strip
 Status LedTurnOff(ledStrip_t led)
 {
     uint8_t rtn = LED_DRIVER_ERROR;
@@ -169,7 +171,7 @@ Status LedTurnOff(ledStrip_t led)
 
 }
 
-
+// Funcion de Apagado de Strip
 Status LedTurnOn(ledStrip_t led, ledColour_t color)
 {
     uint8_t rtn = LED_DRIVER_ERROR; 
@@ -204,20 +206,14 @@ Status LedTurnOn(ledStrip_t led, ledColour_t color)
     return rtn;
 }
 
-
+// Funcion para obtener el estado
 uint16_t get_LedState(ledStrip_t* led)
 {    
     return get_LEDSet_state(led->dev);
 }
 
 
-Status LedStayOn(ledStrip_t led, uint16_t timeout, ledColour_t color)
-{
-    //RTOS Delay Considerations
-
-}
-
-
+Status LedStayOn(ledStrip_t led, uint16_t timeout, ledColour_t color);
 Status LedBlinkColor(ledStrip_t led,uint16_t period, ledColour_t colorA);
 Status LedBlinkTwoColors(ledStrip_t led,uint16_t period, ledColour_t colorA, ledColour_t colorB);
 Status LedBlinkColorForTime(ledStrip_t led,uint16_t period, uint16_t timeout, ledColour_t colorA);

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html class="theme-green">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>&lt;Reporte PCA9532 Driver&gt;</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="&lt;report.css"/>
+  </head>
+
+  <body>
+    <header>
+      <h1>&lt;Reporte PCA9532 Driver&gt;</h1>
+
+      <hr/>
+
+      <div class="summary">
+<div>
+  <table class="legend">
+    <tr>
+      <th scope="row">Directory:</th>
+      <td>src/</td>
+    </tr>
+    <tr>
+      <th scope="row">Date:</th>
+      <td>2023-04-10 00:49:21</td>
+    </tr>
+  </table>
+</div>
+
+<div>
+  <table class="coverage">
+    <tr>
+      <th></th>
+      <th scope="col">Exec</th>
+      <th scope="col">Total</th>
+      <th scope="col">Coverage</th>
+    </tr>
+    <tr>
+      <th scope="row">Lines:</th>
+      <td>189</td>
+      <td>224</td>
+      <td class="coverage-medium">84.4%</td>
+    </tr>
+    <tr>
+      <th scope="row">Functions:</th>
+      <td>21</td>
+      <td>21</td>
+      <td class="coverage-high">100.0%</td>
+    </tr>
+    <tr>
+      <th scope="row">Branches:</th>
+      <td>107</td>
+      <td>166</td>
+      <td class="coverage-low">64.5%</td>
+    </tr>
+  </table>
+</div>
+      </div>
+
+      <hr/>
+    </header>
+
+    <nav>
+    </nav>
+
+    <main>
+<table class="listOfFunctions">
+  <tr>
+    <th>Function</th>
+    <th>File</th>
+    <th>Line</th>
+    <th>Call count</th>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l249">LEDInit</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l249">src/led.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l249">249</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l249"> called 12 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l13">LEDSet</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l13">src/pca_9532.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l13">13</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l13"> called 144 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l40">LEDSet_Duty</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l40">src/pca_9532.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l40">40</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l40"> called 156 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l66">LEDSet_Period</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l66">src/pca_9532.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l66">66</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l66"> called 48 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l106">LEDSet_disable</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l106">src/pca_9532.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l106">106</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l106"> called 138 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l92">LEDSet_enable</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l92">src/pca_9532.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l92">92</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l92"> called 78 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l141">LEDSet_led_off</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l141">src/pca_9532.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l141">141</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l141"> called 360 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l120">LEDSet_led_on</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l120">src/pca_9532.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l120">120</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l120"> called 684 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l61">LedColourAuto</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l61">src/pca9532_led_driver.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l61">61</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l61"> called 102 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l44">LedColourInit</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l44">src/pca9532_led_driver.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l44">44</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l44"> called 108 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l26">LedStripInit</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l26">src/pca9532_led_driver.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l26">26</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l26"> called 90 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l139">LedTurnOff</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l139">src/pca9532_led_driver.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l139">139</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l139"> called 36 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l175">LedTurnOn</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l175">src/pca9532_led_driver.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l175">175</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l175"> called 72 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l15">deff_config</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l15">src/pca9532_led_driver.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l15">15</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l15"> called 90 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l162">get_LEDSet_state</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l162">src/pca_9532.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l162">162</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca_9532.c.97fa6c29f79ec121705897afb4465208.html&gt;#l162"> called 216 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l210">get_LedState</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l210">src/pca9532_led_driver.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l210">210</a>
+    </td>
+    <td>
+      <a href="&lt;report.pca9532_led_driver.c.715c1ea1fbd2e3f9693ba822479f052a.html&gt;#l210"> called 72 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l69">ledInit</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l69">src/led.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l69">69</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l69"> called 12 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l97">ledblinkProcess</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l97">src/led.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l97">97</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l97"> called 72 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l132">ledqProcess</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l132">src/led.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l132">132</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l132"> called 120 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l193">timeValidation</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l193">src/led.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l193">193</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l193"> called 234 times</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l255">vLedControlLed</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l255">src/led.c</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l255">255</a>
+    </td>
+    <td>
+      <a href="&lt;report.led.c.87f02e72e3702b689453f22c5cee5aac.html&gt;#l255"> called 234 times</a>
+    </td>
+  </tr>
+</table>
+      <hr/>
+    </main>
+
+    <footer>
+      Generated by: <a href="http://gcovr.com/en/6.0">GCOVR (Version 6.0)</a>
+    </footer>
+  </body>
+</html>

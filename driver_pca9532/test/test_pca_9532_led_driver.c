@@ -19,45 +19,6 @@
  *   - Possible I2C Addresses 192 + [0 to 2*( 1 to 7)]
 **/
 
-/**
- **     ===== Casos de Prueba ===== 
-            ---¡COMPLETADAS!--- 
- * -- 
- *
- 
- **     ===== Casos de Prueba =====
-            ---¡PENDIENTES! ---
- * ____________  Function  ____________
- * -- Function "LEDSet_Period".
- * -- Function "LEDSet_Duty".
- * -- Function "LEDSet".
- * -- Function "VLedControlLed".
- * -- Function "ledColour".
- * 
- * ____________ Data Struct ____________
- * -- ledStrip_t: 	Structure that contains all the data needed to control a LED STRIP
- * -- ledColour_t:	Structure that contains all the data needed to configure a LED RGB COLOR
- * 
- * ____________   Macros    ____________
- * -- MACROS LEDpERIODOtASK
- *
- * ____________    Task     ____________
- * -- Task “VLedControlLed”
- * 
- * ____________  Constraints  ____________
- * -- Encender y apagar una tira de led con un color de la lista.
- * -- Hacer blinkear una tira de led con un periodo y por un tiempo determinado.
- * -- Implementar estas funciones, que serán utilizadas por otras tareas a través de las APIs definidas. 
- *      # Status LedTurnOff(ledStrip_t led);
- *      # Status LedTurnOn(ledStrip_t led, ledColour_t color);
- *      # Status LedStayOn(ledStrip_t led, uint16_t timeout, ledColour_t color);
- *      # Status LedBlinkColor(ledStrip_t led,uint16_t period, ledColour_t colorA);
- *      # Status LedBlinkTwoColors(ledStrip_t led,uint16_t period, ledColour_t colorA, ledColour_t colorB);
- *      # Status LedBlinkColorForTime(ledStrip_t led,uint16_t period, uint16_t timeout, ledColour_t colorA);
- *      # Status LedBlinkTwoColorsForTime(ledStrip_t led,uint16_t period, uint16_t timeout, ledColour_t colorA,ledColour_t colorB);
- *
-**/
-
 #include "unity.h"
 #include "pca_9532.h"
 #include "pca9532_led_driver.h"
@@ -79,7 +40,6 @@
 pca9532_conf_t 	dev;
 ledStrip_t		led;
 ledColour_t 	color;
-
 uint32_t actual_case = 0;
 
 
@@ -314,6 +274,7 @@ void test_Init(void){
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
+		// Validacion Inicializacion de Strip
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Init[actual_case].expect_init,
 				LedStripInit(Test_Cases_Init[actual_case].led,
 							 Test_Cases_Init[actual_case].pca,
@@ -321,6 +282,7 @@ void test_Init(void){
 		
 		if((Test_Cases_Init[actual_case].expect_init) == LED_DRIVER_OK)
 		{
+			// Validacion de configuracion de estructura de Strip
 			TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Init[actual_case].pin_conf, 
 								  led.pin_addresses,Text_ID);
 		}
@@ -346,10 +308,12 @@ void test_Color(void){
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
+		// Validacion de Inicializacion de Colores Automaticos
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Color_Auto[actual_case].expect_init,
 				LedColourAuto(Test_Cases_Color_Auto[actual_case].color,
 							 Test_Cases_Color_Auto[actual_case].deffcolor),Text_ID);
 		
+		// Validacion de EStrucutra de Colores Automaticos
 		if((Test_Cases_Color_Auto[actual_case].expect_init) == LED_DRIVER_OK)
 		{
 			TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Color_Auto[actual_case].red, 
@@ -366,12 +330,14 @@ void test_Color(void){
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
+		// Validacion de Inicializacion de Colores Custom
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Color[actual_case].expect_init,
 				LedColourInit(Test_Cases_Color[actual_case].color,
 							 Test_Cases_Color[actual_case].red,
 							 Test_Cases_Color[actual_case].green,
 							 Test_Cases_Color[actual_case].blue),Text_ID);
 		
+		// Validacion de EStrucutra de Colores Custom
 		if((Test_Cases_Color[actual_case].expect_init) == LED_DRIVER_OK)
 		{
 			TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_Color[actual_case].red, 
@@ -404,17 +370,24 @@ void test_Led_On(void)
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
+		// Inicializacion de IC PCA9532
 		TEST_ASSERT_EQUAL(PCA_9532_OK,LEDSet(&dev,CORRECT_ADDRESS,ENA_PIN));
 
+		// Inicializacion de LED Strip
 		TEST_ASSERT_EQUAL_MESSAGE(LED_DRIVER_OK,
 				LedStripInit(&led, &dev, Test_Cases_LedOn[actual_case].pin_conf),Text_ID);
+		
+		// Inicializacion de LED Color Automatico
 		TEST_ASSERT_EQUAL_MESSAGE(LED_DRIVER_OK,
 				LedColourAuto(&color, MAGENTA), Text_ID);
+
+		// Comando de Encendido de LED Color Automatico
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_LedOn[actual_case].expect_init,
 				LedTurnOn(led, color),Text_ID);
 		
 		if((Test_Cases_LedOn[actual_case].expect_init) == LED_DRIVER_OK)
 		{
+			// Validacion de estructura de estado en ON.
 			TEST_ASSERT_EQUAL_HEX16_MESSAGE(Test_Cases_LedOn[actual_case].state, 
 								  	  get_LedState(&led),Text_ID);
 		}
@@ -425,7 +398,7 @@ void test_Led_On(void)
 
 
 /**
- * @test Prueba de Validacion de encendido.
+ * @test Prueba de Validacion de apagado.
  * 
  * 
  **/
@@ -440,22 +413,29 @@ void test_Led_Off(void)
 		printf("\n *** Ejecutando Caso de Prueba Nro: %d ***",actual_case);
 		sprintf(Text_ID,"Caso de Prueba Nro: %d",actual_case);
 
+		// Inicializacion de IC PCA9532
 		TEST_ASSERT_EQUAL(PCA_9532_OK,LEDSet(&dev,CORRECT_ADDRESS,ENA_PIN));
 
+		// Inicializacion de LED Strip
 		TEST_ASSERT_EQUAL_MESSAGE(LED_DRIVER_OK,
 				LedStripInit(&led, &dev, Test_Cases_LedOff[actual_case].pin_conf),Text_ID);
+		
+		// Inicializacion de LED Color Automatico
 		TEST_ASSERT_EQUAL_MESSAGE(LED_DRIVER_OK,
 				LedColourAuto(&color, MAGENTA), Text_ID);
+		
+		// Comando de Encendido de LED Color Automatico
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_LedOff[actual_case].expect_init,
 				LedTurnOn(led, color),Text_ID);
 
+		// Comando de Apagado de LED Color Automatico
 		TEST_ASSERT_EQUAL_MESSAGE(Test_Cases_LedOff[actual_case].expect_init,
 				LedTurnOff(led),Text_ID);
 
-		/*TEST*/
 		
 		if((Test_Cases_LedOff[actual_case].expect_init) == LED_DRIVER_OK)
 		{
+			// Validacion de estructura de estado en OFF
 			TEST_ASSERT_EQUAL_HEX16_MESSAGE(Test_Cases_LedOff[actual_case].state, 
 								  	  get_LedState(&led),Text_ID);
 		}
@@ -463,3 +443,5 @@ void test_Led_Off(void)
 
 	printf("\n ___ Final de Pruebas de Apagado de LED Strip ___");
 }
+
+
